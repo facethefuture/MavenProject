@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -32,5 +33,11 @@ public class App
 		System.out.println("查询景点");
 		List<TouristAttraction> touristList = dbcp.queryTouristAttraction();
 		return JSON.toJSONString(touristList);
+	}
+	@RequestMapping("/queryTouristById")
+	@ResponseBody
+	public String queryTouristById(@RequestParam(value="id") int id){
+		TouristAttraction tourist = dbcp.queryTouristDescription(id);
+		return JSON.toJSONString(tourist);
 	}
 }
