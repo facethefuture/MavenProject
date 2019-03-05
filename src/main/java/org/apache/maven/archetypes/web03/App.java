@@ -1,5 +1,6 @@
 package org.apache.maven.archetypes.web03;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.archetypes.dataSource.Dao;
@@ -29,10 +30,34 @@ public class App
     }
 	@RequestMapping("/queryTourist")
 	@ResponseBody
-	public String queryTourist(){
+	public String queryTourist(@RequestParam(value="page", defaultValue="1") int page){
 		System.out.println("查询景点");
-		List<TouristAttraction> touristList = dbcp.queryTouristAttraction();
-		return JSON.toJSONString(touristList);
+		List<TouristAttraction> touristList = dbcp.queryTouristAttraction(page);
+		int total = dbcp.queryCount();
+		class ResponseObj{
+			private int currentPage;
+			private int totalPage;
+			private List<TouristAttraction> items;
+			List<TouristAttraction> list = new ArrayList<TouristAttraction>();
+			ResponseObj(List<TouristAttraction> list, int page, int total){
+				this.currentPage = page;
+				this.items = list;
+				this.totalPage = (int) Math.ceil((double)total / 10);
+			}
+			public int getCurrentPage(){
+				return this.currentPage;
+			}
+			public List<TouristAttraction> getItems(){
+				return this.items;
+			}
+			public int getTotalPage(){
+				return this.totalPage;
+			}
+		}
+		ResponseObj ro = new ResponseObj(touristList,page,total);
+//		ro.setItems(tourist);
+		System.out.println(ro.currentPage + "执行了");
+		return JSON.toJSONString(ro);
 	}
 	@RequestMapping("/queryTouristById")
 	@ResponseBody
