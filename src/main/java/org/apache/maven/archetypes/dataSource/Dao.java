@@ -29,7 +29,7 @@ public class Dao {
 			conn = dataSource.getConnection();
 			String querySql = null;
 			if (category_id == 0){
-				querySql = "SELECT * FROM touristattractions ORDER BY id LIMIT ?,?";
+				querySql = "SELECT * FROM touristattractions ORDER BY id DESC LIMIT ?,?";
 				stmt = conn.prepareStatement(querySql);
 				stmt.setInt(1,(page -1) * 10);
 				stmt.setInt(2,10);
