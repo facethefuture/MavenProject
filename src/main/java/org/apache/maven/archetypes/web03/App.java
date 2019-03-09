@@ -30,9 +30,9 @@ public class App
     }
 	@RequestMapping("/queryTourist")
 	@ResponseBody
-	public String queryTourist(@RequestParam(value="page", defaultValue="1") int page){
+	public String queryTourist(@RequestParam(value="page", defaultValue="1") int page,@RequestParam(value="category_id",defaultValue="0") int category_id){
 		System.out.println("查询景点");
-		List<TouristAttraction> touristList = dbcp.queryTouristAttraction(page);
+		List<TouristAttraction> touristList = dbcp.queryTouristAttraction(page,category_id);
 		int total = dbcp.queryCount();
 		class ResponseObj{
 			private int currentPage;

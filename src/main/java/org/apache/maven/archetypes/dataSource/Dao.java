@@ -17,22 +17,30 @@ import org.springframework.stereotype.Component;
 public class Dao {
 	@Autowired
 	private DataSource dataSource;
-	public List<TouristAttraction> queryTouristAttraction(int page){
-		String querySql = "SELECT * FROM touristattractions ORDER BY id LIMIT ?,?";
-		String queryCount = "SELECT COUNT(id) AS count FROM touristattractions;";
+	public List<TouristAttraction> queryTouristAttraction(int page,int category_id){
+		
+	
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		List<TouristAttraction> touristList = new ArrayList<TouristAttraction>();
-		int totalCount;
 		try{
 			conn = dataSource.getConnection();
-	
-			stmt = conn.prepareStatement(querySql);
+			String querySql = null;
+			if (category_id == 0){
+				querySql = "SELECT * FROM touristattractions ORDER BY id LIMIT ?,?";
+				stmt = conn.prepareStatement(querySql);
+				stmt.setInt(1,(page -1) * 10);
+				stmt.setInt(2,10);
+			} else{
+				querySql = "SELECT * FROM touristattractions WHERE category_id = ? ORDER BY id LIMIT ?,?";
+				stmt = conn.prepareStatement(querySql);
+				stmt.setInt(1,category_id);
+				stmt.setInt(2,(page -1) * 10);
+				stmt.setInt(3,10);
+			}
 		
-			stmt.setInt(1,(page -1) * 10);
-			stmt.setInt(2,10);
 			rs=stmt.executeQuery();
 			while(rs.next()){
 				System.out.println(rs.getInt("id"));
