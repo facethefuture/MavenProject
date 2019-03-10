@@ -34,7 +34,7 @@ public class Dao {
 				stmt.setInt(1,(page -1) * 10);
 				stmt.setInt(2,10);
 			} else{
-				querySql = "SELECT * FROM touristattractions WHERE category_id = ? ORDER BY id LIMIT ?,?";
+				querySql = "SELECT * FROM touristattractions WHERE category_id = ? ORDER BY id DESC LIMIT ?,?";
 				stmt = conn.prepareStatement(querySql);
 				stmt.setInt(1,category_id);
 				stmt.setInt(2,(page -1) * 10);
