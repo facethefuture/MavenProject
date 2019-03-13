@@ -16,6 +16,7 @@
 	<!-- 开启注解扫描 -->
 	<context:component-scan base-package="org.apache.maven.archetypes.web03"></context:component-scan>
 	<context:component-scan base-package="org.apache.maven.archetypes.theme"></context:component-scan>
+	<context:component-scan base-package="org.apache.maven.archetypes.securityConfig"></context:component-scan>
 
 	
 	<!-- 添加对springMVC支持 -->
